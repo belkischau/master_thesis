@@ -48,6 +48,8 @@ model/cross_validation/hp_nested_cv/*.sh
 model/cross_validation/hp_nested_cv/*.err
 model/cross_validation/hp_nested_cv/*.log
 model/cross_validation/hp_nested_cv/inner/
+model/cross_validation/hp_nested_cv/checkpoint/
+model/cross_validation/hp_nested_cv/err_log/
 model/cross_validation/hp_nested_cv/outer_checkpoint/
 model/cross_validation/hp_nested_cv/outer_checkpoint_32/
 model/cross_validation/hp_nested_cv/plot_outer/
@@ -58,7 +60,7 @@ model/cross_validation/hp_nested_cv/outer1/
 model/cross_validation/hp_nested_cv/outer2/
 model/cross_validation/hp_nested_cv/outer3/
 model/cross_validation/hp_nested_cv/outer4/
-
+model/cross_validation/hp_nested_cv/out/
 
 
 model/cross_validation/shuffle_core/plot_outer_32/
