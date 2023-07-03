@@ -61,7 +61,7 @@ model/cross_validation/hp_nested_cv/outer2/
 model/cross_validation/hp_nested_cv/outer3/
 model/cross_validation/hp_nested_cv/outer4/
 model/cross_validation/hp_nested_cv/out/old/
-
+model/cross_validation/hp_nested_cv/out/
 
 model/cross_validation/shuffle_core/plot_outer_32/
 model/cross_validation/shuffle_core/err_log/
