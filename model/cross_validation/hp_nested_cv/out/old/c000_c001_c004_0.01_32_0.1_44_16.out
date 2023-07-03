@@ -1,0 +1,25 @@
+Using cpu device
+Namespace(batch_size=32, dropout=0.1, hidden_feature1=44, hidden_feature2=16, learning_rate=0.01, testing='c000', training='c001, c002, c003', validation='c004')
+========== start cross validation  =============
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=44, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=44, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+starting training from the function
+Epoch  1 : Train Loss 0.605026 , Valid Loss 0.582967 , Train Acc 0.683207 , Valid Acc 0.698169
+Epoch  5 : Train Loss 0.568834 , Valid Loss 0.585458 , Train Acc 0.716306 , Valid Acc 0.710290
+Epoch 10 : Train Loss 0.552782 , Valid Loss 0.574852 , Train Acc 0.726962 , Valid Acc 0.715609
+Epoch 15 : Train Loss 0.542657 , Valid Loss 0.583084 , Train Acc 0.735361 , Valid Acc 0.717488
+Epoch 20 : Train Loss 0.535246 , Valid Loss 0.575523 , Train Acc 0.738933 , Valid Acc 0.712857
+Epoch 25 : Train Loss 0.532298 , Valid Loss 0.609726 , Train Acc 0.740380 , Valid Acc 0.717594
+Epoch 30 : Train Loss 0.525605 , Valid Loss 0.581229 , Train Acc 0.744094 , Valid Acc 0.717435
+Early stop at epoch: 31. 
+Final training statistics: 
+Train Loss 0.526428 | Valid Loss 0.582325 | Train Acc 0.741183 | Valid Acc 0.712274
+Finished 1 inner loop training
+Finish training
+44 16 0.01 32 0.1 0.7122743873392262

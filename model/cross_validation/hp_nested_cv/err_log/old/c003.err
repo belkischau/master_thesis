@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "model4_hp_nest_cv.py", line 404, in <module>
+    print("Final statistics:",  h1, train_h2, train_lr, train_batch_size, train_dropout, train_valid_accuracy)
+TypeError: 'int' object is not iterable
+
+real	27m14.800s
+user	27m3.401s
+sys	0m5.475s

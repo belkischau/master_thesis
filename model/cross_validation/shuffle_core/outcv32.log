@@ -1,0 +1,497 @@
+Working directory is
+Using cpu device
+Namespace(batch_size=32, dropout=0.3, hidden_feature1=44, hidden_feature2=12, learning_rate=0.0001, testing=None, training=None, validation=None)
+========== start cross validation  =============
+test file = c000
+valid file = c001, train files = ['c002', 'c003', 'c004']
+=============== Start training the models 1/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.618514 , Valid Loss 0.571119 , Train Acc 0.654471 , Valid Acc 0.709576
+Epoch  5 : Train Loss 0.535425 , Valid Loss 0.543239 , Train Acc 0.736752 , Valid Acc 0.731889
+Epoch 10 : Train Loss 0.491466 , Valid Loss 0.525792 , Train Acc 0.771065 , Valid Acc 0.747497
+Epoch 15 : Train Loss 0.465265 , Valid Loss 0.527926 , Train Acc 0.788669 , Valid Acc 0.747783
+Early stop at epoch: 19. 
+Final training statistics: 
+Train Loss 0.453004 | Valid Loss 0.533463 | Train Acc 0.796720 | Valid Acc 0.747765
+valid file = c002, train files = ['c001', 'c003', 'c004']
+=============== Start training the models 2/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.626651 , Valid Loss 0.580111 , Train Acc 0.647759 , Valid Acc 0.705224
+Epoch  5 : Train Loss 0.546166 , Valid Loss 0.551884 , Train Acc 0.732974 , Valid Acc 0.727491
+Epoch 10 : Train Loss 0.508436 , Valid Loss 0.533883 , Train Acc 0.764285 , Valid Acc 0.743326
+Epoch 15 : Train Loss 0.482889 , Valid Loss 0.527027 , Train Acc 0.783033 , Valid Acc 0.748982
+Early stop at epoch: 16. 
+Final training statistics: 
+Train Loss 0.478180 | Valid Loss 0.530881 | Train Acc 0.784958 | Valid Acc 0.749198
+valid file = c003, train files = ['c001', 'c002', 'c004']
+=============== Start training the models 3/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.627701 , Valid Loss 0.583756 , Train Acc 0.641659 , Valid Acc 0.701633
+Epoch  5 : Train Loss 0.546079 , Valid Loss 0.555547 , Train Acc 0.733238 , Valid Acc 0.722793
+Epoch 10 : Train Loss 0.509442 , Valid Loss 0.535796 , Train Acc 0.764138 , Valid Acc 0.741080
+Epoch 15 : Train Loss 0.481540 , Valid Loss 0.532873 , Train Acc 0.783215 , Valid Acc 0.745172
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.481540 | Valid Loss 0.532873 | Train Acc 0.783215 | Valid Acc 0.745172
+valid file = c004, train files = ['c001', 'c002', 'c003']
+=============== Start training the models 4/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.621279 , Valid Loss 0.570324 , Train Acc 0.652427 , Valid Acc 0.711428
+Epoch  5 : Train Loss 0.536354 , Valid Loss 0.540259 , Train Acc 0.737093 , Valid Acc 0.732756
+Epoch 10 : Train Loss 0.496622 , Valid Loss 0.519931 , Train Acc 0.769020 , Valid Acc 0.749274
+Epoch 15 : Train Loss 0.470143 , Valid Loss 0.518961 , Train Acc 0.785914 , Valid Acc 0.749909
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.470143 | Valid Loss 0.518961 | Train Acc 0.785914 | Valid Acc 0.749909
+
+Test accuracy: 0.7652644143818274
+Testing f1 score: 0.7732648533445137
+Confusion matrix: [[20181  7465]
+ [ 5514 22132]]
+
+tn, fp, fn, tp
+[20181  7465  5514 22132]
+
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.73      0.76     27646
+           1       0.75      0.80      0.77     27646
+
+    accuracy                           0.77     55292
+   macro avg       0.77      0.77      0.76     55292
+weighted avg       0.77      0.77      0.76     55292
+
+AUC score: 0.841472328434405
+
+MCC = 0.5318548632085611
+
+test file = c001
+valid file = c000, train files = ['c002', 'c003', 'c004']
+=============== Start training the models 1/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.627672 , Valid Loss 0.581865 , Train Acc 0.643469 , Valid Acc 0.704080
+Epoch  5 : Train Loss 0.546999 , Valid Loss 0.553973 , Train Acc 0.731401 , Valid Acc 0.725385
+Epoch 10 : Train Loss 0.508755 , Valid Loss 0.533893 , Train Acc 0.762256 , Valid Acc 0.741319
+Epoch 15 : Train Loss 0.482536 , Valid Loss 0.532493 , Train Acc 0.781628 , Valid Acc 0.744393
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.482536 | Valid Loss 0.532493 | Train Acc 0.781628 | Valid Acc 0.744393
+valid file = c002, train files = ['c000', 'c003', 'c004']
+=============== Start training the models 2/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.619138 , Valid Loss 0.571183 , Train Acc 0.654259 , Valid Acc 0.710809
+Epoch  5 : Train Loss 0.536284 , Valid Loss 0.543687 , Train Acc 0.736033 , Valid Acc 0.730679
+Epoch 10 : Train Loss 0.493293 , Valid Loss 0.526951 , Train Acc 0.769217 , Valid Acc 0.743073
+Early stop at epoch: 13. 
+Final training statistics: 
+Train Loss 0.474833 | Valid Loss 0.523214 | Train Acc 0.782070 | Valid Acc 0.747847
+valid file = c003, train files = ['c000', 'c002', 'c004']
+=============== Start training the models 3/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.627466 , Valid Loss 0.583285 , Train Acc 0.646346 , Valid Acc 0.701202
+Epoch  5 : Train Loss 0.547211 , Valid Loss 0.555107 , Train Acc 0.732190 , Valid Acc 0.725359
+Epoch 10 : Train Loss 0.508847 , Valid Loss 0.536588 , Train Acc 0.763771 , Valid Acc 0.739932
+Epoch 15 : Train Loss 0.481720 , Valid Loss 0.532003 , Train Acc 0.782825 , Valid Acc 0.746339
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.481720 | Valid Loss 0.532003 | Train Acc 0.782825 | Valid Acc 0.746339
+valid file = c004, train files = ['c000', 'c002', 'c003']
+=============== Start training the models 4/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.621312 , Valid Loss 0.572790 , Train Acc 0.651235 , Valid Acc 0.708905
+Epoch  5 : Train Loss 0.538334 , Valid Loss 0.541406 , Train Acc 0.735705 , Valid Acc 0.735043
+Epoch 10 : Train Loss 0.496040 , Valid Loss 0.523824 , Train Acc 0.768025 , Valid Acc 0.747695
+Epoch 15 : Train Loss 0.469039 , Valid Loss 0.517642 , Train Acc 0.786202 , Valid Acc 0.750799
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.469039 | Valid Loss 0.517642 | Train Acc 0.786202 | Valid Acc 0.750799
+
+Test accuracy: 0.7670743045126225
+Testing f1 score: 0.7752165361123572
+Confusion matrix: [[20439  7527]
+ [ 5501 22465]]
+
+tn, fp, fn, tp
+[20439  7527  5501 22465]
+
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.73      0.76     27966
+           1       0.75      0.80      0.78     27966
+
+    accuracy                           0.77     55932
+   macro avg       0.77      0.77      0.77     55932
+weighted avg       0.77      0.77      0.77     55932
+
+AUC score: 0.8429548713254751
+
+MCC = 0.5355558351411376
+
+test file = c002
+valid file = c000, train files = ['c001', 'c003', 'c004']
+=============== Start training the models 1/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.618556 , Valid Loss 0.575960 , Train Acc 0.655448 , Valid Acc 0.705292
+Epoch  5 : Train Loss 0.537775 , Valid Loss 0.546196 , Train Acc 0.736044 , Valid Acc 0.727682
+Epoch 10 : Train Loss 0.493172 , Valid Loss 0.527476 , Train Acc 0.770187 , Valid Acc 0.742693
+Early stop at epoch: 13. 
+Final training statistics: 
+Train Loss 0.477716 | Valid Loss 0.526383 | Train Acc 0.781839 | Valid Acc 0.744610
+valid file = c001, train files = ['c000', 'c003', 'c004']
+=============== Start training the models 2/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.633460 , Valid Loss 0.584041 , Train Acc 0.634374 , Valid Acc 0.698956
+Epoch  5 : Train Loss 0.549729 , Valid Loss 0.552432 , Train Acc 0.731560 , Valid Acc 0.729529
+Epoch 10 : Train Loss 0.509877 , Valid Loss 0.537712 , Train Acc 0.764503 , Valid Acc 0.745423
+Epoch 15 : Train Loss 0.483353 , Valid Loss 0.533274 , Train Acc 0.783304 , Valid Acc 0.747622
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.483353 | Valid Loss 0.533274 | Train Acc 0.783304 | Valid Acc 0.747622
+valid file = c003, train files = ['c000', 'c001', 'c004']
+=============== Start training the models 3/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.618109 , Valid Loss 0.577025 , Train Acc 0.656413 , Valid Acc 0.703733
+Epoch  5 : Train Loss 0.535349 , Valid Loss 0.548121 , Train Acc 0.737638 , Valid Acc 0.725861
+Epoch 10 : Train Loss 0.493381 , Valid Loss 0.531876 , Train Acc 0.768844 , Valid Acc 0.740865
+Early stop at epoch: 12. 
+Final training statistics: 
+Train Loss 0.481118 | Valid Loss 0.529960 | Train Acc 0.778909 | Valid Acc 0.742283
+valid file = c004, train files = ['c000', 'c001', 'c003']
+=============== Start training the models 4/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.620590 , Valid Loss 0.569353 , Train Acc 0.652698 , Valid Acc 0.713007
+Epoch  5 : Train Loss 0.537690 , Valid Loss 0.539685 , Train Acc 0.735199 , Valid Acc 0.732302
+Epoch 10 : Train Loss 0.493486 , Valid Loss 0.522441 , Train Acc 0.771594 , Valid Acc 0.745208
+Early stop at epoch: 14. 
+Final training statistics: 
+Train Loss 0.471751 | Valid Loss 0.519733 | Train Acc 0.784946 | Valid Acc 0.750508
+
+Test accuracy: 0.7676634840569266
+Testing f1 score: 0.7748939661040617
+Confusion matrix: [[20415  7340]
+ [ 5557 22198]]
+
+tn, fp, fn, tp
+[20415  7340  5557 22198]
+
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.74      0.76     27755
+           1       0.75      0.80      0.77     27755
+
+    accuracy                           0.77     55510
+   macro avg       0.77      0.77      0.77     55510
+weighted avg       0.77      0.77      0.77     55510
+
+AUC score: 0.8424561536965446
+
+MCC = 0.5364350098136242
+
+test file = c003
+valid file = c000, train files = ['c001', 'c002', 'c004']
+=============== Start training the models 1/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.626642 , Valid Loss 0.581980 , Train Acc 0.646763 , Valid Acc 0.702995
+Epoch  5 : Train Loss 0.545220 , Valid Loss 0.554131 , Train Acc 0.734258 , Valid Acc 0.725530
+Epoch 10 : Train Loss 0.507674 , Valid Loss 0.535232 , Train Acc 0.764709 , Valid Acc 0.741192
+Early stop at epoch: 14. 
+Final training statistics: 
+Train Loss 0.483690 | Valid Loss 0.532104 | Train Acc 0.781990 | Valid Acc 0.744809
+valid file = c001, train files = ['c000', 'c002', 'c004']
+=============== Start training the models 2/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.692330 , Valid Loss 0.690662 , Train Acc 0.518012 , Valid Acc 0.539995
+Epoch  5 : Train Loss 0.620102 , Valid Loss 0.608940 , Train Acc 0.669976 , Valid Acc 0.680362
+Epoch 10 : Train Loss 0.574373 , Valid Loss 0.574142 , Train Acc 0.706644 , Valid Acc 0.707806
+Epoch 15 : Train Loss 0.560854 , Valid Loss 0.562535 , Train Acc 0.718163 , Valid Acc 0.716799
+Epoch 20 : Train Loss 0.553608 , Valid Loss 0.558249 , Train Acc 0.723329 , Valid Acc 0.718533
+Epoch 25 : Train Loss 0.548756 , Valid Loss 0.553354 , Train Acc 0.726880 , Valid Acc 0.722824
+Epoch 30 : Train Loss 0.543310 , Valid Loss 0.552164 , Train Acc 0.730509 , Valid Acc 0.725577
+Epoch 35 : Train Loss 0.539025 , Valid Loss 0.549538 , Train Acc 0.734089 , Valid Acc 0.726060
+Epoch 40 : Train Loss 0.533969 , Valid Loss 0.545277 , Train Acc 0.738803 , Valid Acc 0.730798
+Epoch 45 : Train Loss 0.530381 , Valid Loss 0.542989 , Train Acc 0.742384 , Valid Acc 0.732228
+Epoch 50 : Train Loss 0.524235 , Valid Loss 0.540341 , Train Acc 0.747978 , Valid Acc 0.733069
+Epoch 55 : Train Loss 0.518348 , Valid Loss 0.538732 , Train Acc 0.753403 , Valid Acc 0.736752
+Epoch 60 : Train Loss 0.513401 , Valid Loss 0.535327 , Train Acc 0.757580 , Valid Acc 0.737664
+Epoch 65 : Train Loss 0.507245 , Valid Loss 0.535007 , Train Acc 0.761932 , Valid Acc 0.740095
+Epoch 70 : Train Loss 0.501970 , Valid Loss 0.531841 , Train Acc 0.764976 , Valid Acc 0.740918
+Epoch 75 : Train Loss 0.495328 , Valid Loss 0.529899 , Train Acc 0.770233 , Valid Acc 0.743546
+Epoch 80 : Train Loss 0.490702 , Valid Loss 0.527313 , Train Acc 0.772499 , Valid Acc 0.745512
+Epoch 85 : Train Loss 0.485330 , Valid Loss 0.526779 , Train Acc 0.776351 , Valid Acc 0.744797
+Epoch 90 : Train Loss 0.482752 , Valid Loss 0.526657 , Train Acc 0.778105 , Valid Acc 0.746067
+Early stop at epoch: 93. 
+Final training statistics: 
+Train Loss 0.477555 | Valid Loss 0.525964 | Train Acc 0.780782 | Valid Acc 0.746460
+valid file = c002, train files = ['c000', 'c001', 'c004']
+=============== Start training the models 3/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=16, bias=True)
+  (fc3): Linear(in_features=16, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.629032 , Valid Loss 0.582820 , Train Acc 0.643227 , Valid Acc 0.704648
+Epoch  5 : Train Loss 0.548359 , Valid Loss 0.554027 , Train Acc 0.734710 , Valid Acc 0.728409
+Epoch 10 : Train Loss 0.510021 , Valid Loss 0.535541 , Train Acc 0.766036 , Valid Acc 0.746370
+Epoch 15 : Train Loss 0.483912 , Valid Loss 0.533677 , Train Acc 0.783238 , Valid Acc 0.747487
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.483912 | Valid Loss 0.533677 | Train Acc 0.783238 | Valid Acc 0.747487
+valid file = c004, train files = ['c000', 'c001', 'c002']
+=============== Start training the models 4/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.621651 , Valid Loss 0.572302 , Train Acc 0.652063 , Valid Acc 0.709885
+Epoch  5 : Train Loss 0.535740 , Valid Loss 0.540520 , Train Acc 0.738734 , Valid Acc 0.732393
+Epoch 10 : Train Loss 0.493276 , Valid Loss 0.522939 , Train Acc 0.770809 , Valid Acc 0.745952
+Epoch 15 : Train Loss 0.468985 , Valid Loss 0.519747 , Train Acc 0.786750 , Valid Acc 0.750345
+Early stop at epoch: 15. 
+Final training statistics: 
+Train Loss 0.468985 | Valid Loss 0.519747 | Train Acc 0.786750 | Valid Acc 0.750345
+
+Test accuracy: 0.763424264178033
+Testing f1 score: 0.7698030176026822
+Confusion matrix: [[20497  7363]
+ [ 5819 22041]]
+
+tn, fp, fn, tp
+[20497  7363  5819 22041]
+
+
+              precision    recall  f1-score   support
+
+           0       0.78      0.74      0.76     27860
+           1       0.75      0.79      0.77     27860
+
+    accuracy                           0.76     55720
+   macro avg       0.76      0.76      0.76     55720
+weighted avg       0.76      0.76      0.76     55720
+
+AUC score: 0.8378211846845756
+
+MCC = 0.5276594706743949
+
+test file = c004
+valid file = c000, train files = ['c001', 'c002', 'c003']
+=============== Start training the models 1/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.618277 , Valid Loss 0.573046 , Train Acc 0.656638 , Valid Acc 0.707354
+Epoch  5 : Train Loss 0.536747 , Valid Loss 0.544298 , Train Acc 0.736693 , Valid Acc 0.728586
+Epoch 10 : Train Loss 0.494116 , Valid Loss 0.529441 , Train Acc 0.770097 , Valid Acc 0.740216
+Early stop at epoch: 13. 
+Final training statistics: 
+Train Loss 0.475712 | Valid Loss 0.528284 | Train Acc 0.781978 | Valid Acc 0.744592
+valid file = c001, train files = ['c000', 'c002', 'c003']
+=============== Start training the models 2/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.620246 , Valid Loss 0.570819 , Train Acc 0.655889 , Valid Acc 0.709558
+Epoch  5 : Train Loss 0.536893 , Valid Loss 0.543408 , Train Acc 0.735759 , Valid Acc 0.731531
+Epoch 10 : Train Loss 0.494500 , Valid Loss 0.526361 , Train Acc 0.769718 , Valid Acc 0.746514
+Early stop at epoch: 13. 
+Final training statistics: 
+Train Loss 0.477391 | Valid Loss 0.527218 | Train Acc 0.781296 | Valid Acc 0.747104
+valid file = c002, train files = ['c000', 'c001', 'c003']
+=============== Start training the models 3/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.621202 , Valid Loss 0.573228 , Train Acc 0.652878 , Valid Acc 0.709314
+Epoch  5 : Train Loss 0.538573 , Valid Loss 0.544048 , Train Acc 0.734096 , Valid Acc 0.730769
+Epoch 10 : Train Loss 0.496755 , Valid Loss 0.526844 , Train Acc 0.767587 , Valid Acc 0.745776
+Early stop at epoch: 14. 
+Final training statistics: 
+Train Loss 0.475685 | Valid Loss 0.525411 | Train Acc 0.781615 | Valid Acc 0.747649
+valid file = c003, train files = ['c000', 'c001', 'c002']
+=============== Start training the models 4/4 ========================
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=128, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=128, out_features=32, bias=True)
+  (fc3): Linear(in_features=32, out_features=1, bias=True)
+)
+Epoch  1 : Train Loss 0.620701 , Valid Loss 0.576268 , Train Acc 0.653244 , Valid Acc 0.704971
+Epoch  5 : Train Loss 0.536970 , Valid Loss 0.549002 , Train Acc 0.737432 , Valid Acc 0.725449
+Epoch 10 : Train Loss 0.494954 , Valid Loss 0.530008 , Train Acc 0.770125 , Valid Acc 0.739932
+Early stop at epoch: 13. 
+Final training statistics: 
+Train Loss 0.477799 | Valid Loss 0.527664 | Train Acc 0.781046 | Valid Acc 0.743665
+
+Test accuracy: 0.7691316343570754
+Testing f1 score: 0.7761567026275497
+Confusion matrix: [[20322  7224]
+ [ 5495 22051]]
+
+tn, fp, fn, tp
+[20322  7224  5495 22051]
+
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.74      0.76     27546
+           1       0.75      0.80      0.78     27546
+
+    accuracy                           0.77     55092
+   macro avg       0.77      0.77      0.77     55092
+weighted avg       0.77      0.77      0.77     55092
+
+AUC score: 0.845546020354544
+
+MCC = 0.5393267338171599
+
+
+Final CV performance: 
+
+
+Test accuracy: 0.7665071735856399
+Testing f1 score: 0.7738668918518105
+Confusion matrix: [[101854  36919]
+ [ 27886 110887]]
+
+tn, fp, fn, tp
+[101854  36919  27886 110887]
+
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.73      0.76    138773
+           1       0.75      0.80      0.77    138773
+
+    accuracy                           0.77    277546
+   macro avg       0.77      0.77      0.77    277546
+weighted avg       0.77      0.77      0.77    277546
+
+AUC score: 0.8420230268634488
+
+MCC = 0.5341471275621473
+
+Finished evaluating! 

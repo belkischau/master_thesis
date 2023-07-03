@@ -1,0 +1,18 @@
+testing2.py:27: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  X = np.array([one_hot_encode(seq) for seq in sequences])
+TypeError: only size-1 arrays can be converted to Python scalars
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "testing2.py", line 32, in <module>
+    labels = kmeans.fit_predict(X)
+  File "/services/tools/anaconda3/2021.05/lib/python3.8/site-packages/sklearn/cluster/_kmeans.py", line 996, in fit_predict
+    return self.fit(X, sample_weight=sample_weight).labels_
+  File "/services/tools/anaconda3/2021.05/lib/python3.8/site-packages/sklearn/cluster/_kmeans.py", line 1367, in fit
+    X = self._validate_data(
+  File "/services/tools/anaconda3/2021.05/lib/python3.8/site-packages/sklearn/base.py", line 577, in _validate_data
+    X = check_array(X, input_name="X", **check_params)
+  File "/services/tools/anaconda3/2021.05/lib/python3.8/site-packages/sklearn/utils/validation.py", line 856, in check_array
+    array = np.asarray(array, order=order, dtype=dtype)
+ValueError: setting an array element with a sequence.

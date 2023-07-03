@@ -1,0 +1,572 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+import torch.nn.functional as F
+import argparse
+from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
+import sys
+import os
+
+# Get cpu, gpu or mps device for training.
+device = ("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using {device} device")
+# Obtain the arguement from the command line
+
+parser = argparse.ArgumentParser(description="Used for fine-tune hyperparameter")
+
+parser.add_argument("-lr", "--learning_rate", action="store", type=float, default=0.0001, help="learning rate: 0.01, 0.001, 0.0001, 0.00001")
+parser.add_argument("-o", "--optimizer", action="store", type=str, default='Adam', help="optimizer: Adam or SGD (Stochastic Gradient Descent)")
+parser.add_argument("-d", "--dropout", action="store", type=float, default=0.3, help="dropuout rate")
+parser.add_argument("-h1", "--hidden_feature1", action="store", type=int, default=44, help="number of hidden neurons in the first layer")
+parser.add_argument("-h2", "--hidden_feature2", action="store", type=int, default=12, help="number of hidden neurons in the second layer")
+#parser.add_argument("-e", "--epoch", action="store", type=int, default=100, help="number of epoch")
+parser.add_argument("-tr", "--data_path", action="store", type=str, default="../dataset/model/train_9mer_5050.csv", help="traininig data file path")
+parser.add_argument("-te", "--test_path", action="store", type=str, default="../dataset/model/test_9mer_5050.csv", help="testing data file path")
+parser.add_argument("-p", "--patience", action = "store", type=str, default=7, help="the number of epoch waited after the difference between training loss and validation loss is greater than 10%")
+parser.add_argument("-out", "--out_dir", action = "store", type=str, help="the directory where the plots/checkpoint save. ")
+#parser.add_argument("-ch", "--checkpoint", action="store", type=str, help="the directory to store the checkpoint data. ")
+parser.add_argument("-th", "--threshold", action="store", type=float, default=0.5, help="threshold for determining the prediction output. ")
+
+args = parser.parse_args()
+print(args)
+
+learning_rate = float(args.learning_rate)
+optimizer = args.optimizer
+dropout = float(args.dropout)
+hidden_feature1 = int(args.hidden_feature1)
+hidden_feature2 = int(args.hidden_feature2)
+#epoch = int(args.epoch)
+df_path = args.data_path
+test_path = args.test_path
+patience = args.patience
+out_path = args.out_dir
+#checkpoint_path = args.checkpoint
+threshold = args.threshold
+
+if "5050" in df_path:
+    df_type = "5050"
+else: 
+    df_type = "8020"
+
+df_type = df_path.split('/')[-1][:-4]
+
+name_of_file = f"{learning_rate}_{optimizer}_{dropout}_{hidden_feature1}_{hidden_feature2}_{df_type}"
+
+
+pwd = os.getcwd()
+plot_path = os.path.join(out_path, "plot/early_stop")
+checkpoint_path = os.path.join(out_path, "checkpoint")
+
+if not os.path.exists(plot_path):
+    os.mkdir(plot_path)
+
+if not os.path.exists(checkpoint_path):
+    os.mkdir(checkpoint_path)
+
+
+def one_hot_encode_sequence(sequence):
+    aa_to_int = {'A': 0, 'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'K': 8, 'L': 9, 'M': 10, 'N': 11, 'P': 12, 'Q': 13, 'R': 14, 'S': 15, 'T': 16, 'V': 17, 'W': 18, 'Y': 19}
+    encoded_sequence = torch.zeros(len(sequence), len(aa_to_int))
+    for i, aa in enumerate(sequence):
+        encoded_sequence[i][aa_to_int[aa]] = 1
+    return encoded_sequence
+
+
+
+# define your custom dataset
+class PeptideDataset(Dataset):
+    def __init__(self, dataframe):
+        self.dataframe = dataframe
+        self.peptides = self.dataframe['extended'].values
+        self.targets = self.dataframe['target'].values
+        self.encodeds = self.dataframe['encoding'].values
+
+    def __len__(self):
+        return len(self.dataframe)
+
+    def __getitem__(self, idx):
+        peptide = self.peptides[idx]
+        target = self.targets[idx]
+        encoding = self.encodeds[idx]
+
+        # One-hot encode the peptide sequence
+#        encoded_sequence = one_hot_encode_sequence(peptide)
+#        return encoded_sequence, target
+        return encoding, target 
+
+    
+from sklearn import metrics
+
+def accuracy(target, pred):
+    return metrics.accuracy_score(target.detach().cpu().numpy(), pred.detach().cpu().numpy())
+
+
+in_features = 21
+#hidden_features1 = 44
+#hidden_features2 = 12    
+
+# Load the peptide sequence data from a CSV file
+#data_df = pd.read_csv('../dataset/model/train_9mer.csv')
+#data_df = pd.read_csv('../dataset/model/small_train_9mer.csv')
+#data_df = pd.read_csv('../dataset/model/train_9mer_5050.csv')
+data_df = pd.read_csv(df_path)
+
+data_df['encoding'] = data_df['extended'].apply(lambda x: one_hot_encode_sequence(x))
+
+#print(data_df.head())
+
+# Split the data into training and validation sets
+#sequences_train, sequences_valid, targets_train, targets_valid = train_test_split(data_df['extended'], data_df['target'], test_size=0.2)
+train_df, val_df = train_test_split(data_df, test_size=0.2, random_state = 42)
+
+# Define PeptideDataset objects for the training and validation sets
+# train_dataset = PeptideDataset(sequences_train, targets_train)
+# valid_dataset = PeptideDataset(sequences_valid, targets_valid)
+train_dataset = PeptideDataset(train_df)
+valid_dataset = PeptideDataset(val_df)
+
+# Define DataLoader objects for the training and validation sets
+batch_size = 32
+
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+valid_dataloader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=True)
+
+for batch_x, batch_y in train_dataloader:
+    print(f"Shape of X [N, C, H, W]: {batch_x.shape}")
+    print(f"Shape of y: {batch_y.shape} {batch_y.dtype}")
+    print(f"what's inside batch_y: {batch_y}, datat type: {batch_y.dtype}")
+    break
+
+for batch_x, batch_y in valid_dataloader:
+    print(f"Valid: Shape of X [N, C, H, W]: {batch_x.shape}")
+    print(f"Valid: Shape of y: {batch_y.shape} {batch_y.dtype}")
+    break
+
+#print(train_dataloader)
+#print(len(train_dataloader.dataset) == len(valid_dataloader.dataset))
+
+
+# Define the neural network model
+class PeptideClassifier(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.flatten = nn.Flatten()
+        self.fc1 = nn.Linear(20 * in_features, hidden_feature1)
+        self.dropout = torch.nn.Dropout(p=dropout) #2) Add dropout
+        self.activation = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_feature1, hidden_feature2)
+        self.fc3 = nn.Linear(hidden_feature2, 1)
+
+        
+    def forward(self, x):
+
+        x = self.flatten(x)
+        x = self.fc1(x)
+        x = F.dropout(x)
+        x = self.activation(x)
+        x = self.fc2(x)
+        x = F.dropout(x)
+        x = self.activation(x)
+        x = self.fc3(x)
+        x = torch.sigmoid(x)
+
+        return x
+
+# Create an instance of the neural network model
+model = PeptideClassifier()
+model.to(device)
+print(model)
+
+
+w = data_df['target'].value_counts()[0] / data_df['target'].value_counts()[1]
+neg_weight = torch.tensor([w]).to(device)
+
+print(neg_weight.size())
+
+# Define the loss function and optimizer
+criterion = torch.nn.BCELoss()
+#criterion.weight = neg_weight
+
+#criterion = torch.nn.BCEWithLogitsLoss()
+#optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+#optimizer = torch.optim.Adam(model.parameters(), lr = 0.0001)
+
+if args.optimizer == "Adam":
+    optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate)
+elif args.optimizer == "SGD":
+    optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate)
+
+# Test the forward pass with dummy data
+out = model(torch.randn(32, 21, 20, device=device))
+y_random = torch.randn(32, device=device)
+print("Output shape:", out.size())
+print(f"Y shape: {y_random.size()}")
+print(f"y shape after unsqueezing: {y_random.float().size()}")
+print(f"Output logits:\n{out.detach().cpu().numpy()}")
+
+#print(f"Output probabilities:\n{out.softmax(1).detach().cpu().numpy()}")
+#print(f"Output probabilities:\n{out.sigmoid().detach().cpu().numpy()}")
+
+out = out.reshape([32, -1])
+assert out.shape[1] == 1, "Number of classes in model output doesn't match the number of classes in the dataset"
+assert out.shape[0] == y_random.shape[0], "Batch sizes of model output and labels don't match"
+
+print(f'Loss: {criterion(out, y_random.float().view(-1, 1))}')
+
+#print(f"\nOut: \n{out.detach().cpu().numpy()}\n")
+#threshold = torch.tensor([0.1]).to(device)
+threshold = torch.tensor([threshold]).to(device)
+
+
+results = (out>threshold).float()*1
+print(results.detach().cpu().numpy())
+
+
+
+train_losses = []
+train_accuracies = []
+valid_losses = []
+valid_accuracies = []
+
+
+class EarlyStopping:
+    def __init__(self, patience = 7, path = 'checkpoint/checkpoint.pt', min_delta = 0.1) -> None:
+        self.counter = 0
+        self.patience = patience 
+        self.early_stop = False
+        self.checkpoint_file = path
+        self.min_delta = min_delta
+        self.path = path
+
+    # evoke the finction 
+    def __call__(self, train_loss, valid_loss):
+        loss_diff = (valid_loss - train_loss) / train_loss 
+        if loss_diff > self.min_delta: 
+            self.counter += 1
+            if self.counter >= self.patience: 
+                torch.save(model.state_dict(), self.path)
+                self.early_stop = True
+
+
+early_stopping = EarlyStopping(patience = patience, path = f"{checkpoint_path}/{name_of_file}")
+
+
+epoch = 100
+early_stop_flag = False
+early_stop_counter = 0
+
+print("========== start model training =============")
+
+# Train the model using the training DataLoader and validate it using the validation DataLoader
+for e in range(epoch):
+#    # Train the model
+    model.train()
+    running_loss = 0.0
+    train_loss = 0.0
+    train_correct = 0
+    train_accuracies_batches = []
+    total = 0 
+    for i, (x_train, y_train) in enumerate(train_dataloader):
+        x_train, y_train = x_train.to(device), y_train.to(device)
+
+        # Zero the gradients
+        optimizer.zero_grad()
+        # Forward pass
+        outputs = model(x_train)
+        outputs = outputs.reshape([len(x_train), -1])
+#        print(f'ouputs shape: {outputs.shape}')
+#        print(f'target shape: {y_train.shape}')
+
+#        assert outputs.shape[1] == 
+        assert outputs.shape[0] == y_train.shape[0], "Batch sizes of model output and y_train don't match"
+
+        # Calculate the loss
+        loss = criterion(outputs, y_train.float().view(-1, 1))
+#        loss = criterion(outputs, y_train) 
+#        loss = criterion(outputs, y_train.float().unsqueeze(dim=1))
+        # Backward pass
+        loss.backward()
+        # Update the weights
+        optimizer.step()
+
+        train_loss += loss.item() * x_train.size(0)
+        threshold = torch.tensor([threshold]).to(device)
+
+        train_predicted = (outputs>threshold).float()*1
+
+        train_predicted_squeeze = torch.squeeze(train_predicted)
+        train_predicted_squeeze = train_predicted_squeeze.type(torch.int64)
+
+#        print(f"After squeezing, train predicted shape = {train_predicted_squeeze.shape}")
+#        print(train_predicted_squeeze)
+#        print(f"y_train data type = {y_train.dtype}")
+#       	print(f"Data type of train output: {train_predicted.dtype}")
+#        print(f"Train output logits: {train_predicted.detach().cpu().numpy()}")
+
+
+#        print(f"Train: {y_train.detach().cpu().numpy()},  Train predicted: {train_predicted.detach().cpu().numpy()}")
+
+        train_correct += (train_predicted_squeeze.detach().cpu().numpy() == y_train.detach().cpu().numpy()).sum()
+
+    train_loss /= len(train_dataloader.dataset)
+    train_losses.append(train_loss)
+    train_accuracy = train_correct / len(train_dataloader.dataset)
+#    train_accuracy = train_correct / total
+
+    train_accuracies.append(train_accuracy)
+
+    # Validate the model
+    model.eval()
+    valid_loss = 0.0
+    valid_correct = 0
+    valid_total = 0
+
+    valid_accuracies_batches = []
+
+    with torch.no_grad():
+        model.eval()
+        for x_valid, y_valid in valid_dataloader:
+            x_valid, y_valid = x_valid.to(device), y_valid.to(device)
+            output = model(x_valid)
+            output = output.reshape([len(x_valid), -1])
+#            threshold = torch.tensor([0.5])
+
+#            output = (output>threshold).float()*1
+            loss = criterion(output, y_valid.float().view(-1, 1))
+#            loss = criterion(outputs, y_valid.float().unsqueeze(dim=1))
+            valid_loss += loss.item() * x_valid.size(0)
+            valid_predicted = (output>threshold).float()*1
+            valid_predicted_squeeze = torch.squeeze(valid_predicted)
+            valid_predicted_squeeze = valid_predicted_squeeze.type(torch.int64)
+
+#            print(f"Valid: {y_valid},  Valid predicted: {valid_predicted}")
+
+#            valid_correct += (valid_predicted == y_valid).sum().item()
+            valid_correct += (valid_predicted_squeeze.detach().cpu().numpy() == y_valid.detach().cpu().numpy()).sum()
+
+    valid_loss /= len(valid_dataloader.dataset)
+    valid_losses.append(valid_loss)
+    valid_accuracy = valid_correct / len(valid_dataloader.dataset)
+    valid_accuracies.append(valid_accuracy)
+
+    if ((e +1) % 5 == 0) or (e == 0):
+        print("Epoch %2i : Train Loss %f , Valid Loss %f, Train Acc %f, Valid Acc %f" % (
+            e+1, train_losses[-1], valid_losses[-1], train_accuracies[-1] ,valid_accuracies[-1]))
+    
+    if e > 10: 
+        acc_diff = (valid_accuracies[-1] - valid_accuracies[-2]) / valid_accuracies[-1]
+        if acc_diff <0.01:
+            early_stop_flag = True
+            early_stop_counter += 1
+
+    early_stopping(train_losses[-1], valid_losses[-1])
+
+    if early_stopping.early_stop or (early_stop_counter == 7):         
+        torch.save(model.state_dict(), f'{checkpoint_path}/checkpoint.pt')
+        print(f"Early stop at epoch: {e+1}. ")
+        print(f"Final training statistics: \nTrain Loss %f | Valid Loss %f | Train Acc %f | Valid Acc %f" % (
+            train_losses[-1], valid_losses[-1], train_accuracies[-1] ,valid_accuracies[-1]))
+        break
+
+def checksum(model):
+    s = 0.0
+    for param in model.parameters():
+        s += torch.sum(param)
+    return s
+
+#print(checksum(model))
+
+
+
+# Plot the learning curve
+fig, ax1 = plt.subplots()
+color = 'tab:red'
+ax1.plot(train_losses, color=color)
+ax1.plot(valid_losses, color=color, linestyle='dashed')
+ax1.set_xlabel('Epoch')
+ax1.set_ylabel('Loss', color=color)
+ax1.tick_params(axis='y', labelcolor=color)
+
+ax2 = ax1.twinx()
+color = 'tab:blue'
+ax2.plot(valid_accuracies, color=color)
+ax2.set_ylabel('Accuracy', color=color)
+ax2.tick_params(axis='y', labelcolor=color)
+
+plt.title(f"learning_curve_model4_{name_of_file}")
+fig.tight_layout()
+plt.savefig(f'{plot_path}/learning_curve_model4_{name_of_file}.png')
+#plt.show()
+
+
+epoch = np.arange(len(train_accuracies))
+plt.figure()
+plt.plot(epoch, train_accuracies, 'r', epoch, valid_accuracies, 'b')
+plt.legend(['Train Accucary','Validation Accuracy'])
+plt.xlabel('Updates'), plt.ylabel('Acc')
+plt.title(f"accuracies_model4_{name_of_file}")
+plt.savefig(f"{plot_path}/accuracies_model4_{name_of_file}.png")
+#plt.show()
+
+
+# Testing data
+
+#test_df = pd.read_csv("../dataset/model/test_9mer.csv")
+#test_df = pd.read_csv("../dataset/model/small_test_9mer.csv")
+#test_df = pd.read_csv("../dataset/model/test_9mer_5050.csv")
+test_df = pd.read_csv(test_path)
+
+test_df['encoding'] = test_df['extended'].apply(lambda x: one_hot_encode_sequence(x))
+
+#print(test_df.head())
+
+test_dataset = PeptideDataset(test_df)
+
+test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
+
+for batch_x, batch_y in test_dataloader:
+    print(f"Test -- Shape of X [N, C, H, W]: {batch_x.shape}")
+    print(f"Test -- Shape of y: {batch_y.shape} {batch_y.dtype}")
+    break
+
+import seaborn as sns
+import pandas as pd
+
+n_classes = 2
+
+#from sklearn import metrics
+
+#def accuracy(target, pred):
+#    return metrics.accuracy_score(target.detach().cpu().numpy(), pred.detach().cpu().numpy())
+
+def compute_confusion_matrix(target, pred, normalize=None):
+    return metrics.confusion_matrix(
+        target.detach().cpu().numpy(), 
+        pred.detach().cpu().numpy(),
+        normalize=normalize
+    )
+
+# Evaluate test set
+confusion_matrix = np.zeros((n_classes, n_classes))
+
+with torch.no_grad():
+    model.eval()
+    test_accuracies = []
+    test_correct = 0
+    test_total = 0
+    test_accuracies_batches = []
+    y_test_list = []
+    test_predicted_list = []
+
+    for x_test, y_test in test_dataloader:
+        model.eval()
+        x_test, y_test = x_test.to(device), y_test.to(device)
+        y_test_list.extend(y_test.detach().cpu().numpy())
+        test_output = model(x_test)
+        test_output = test_output.reshape([len(x_test), -1])
+
+        loss = criterion(test_output, y_test.float().view(-1, 1))
+
+#        test_predicted = output.max(1)[1]
+#        _, test_predicted = torch.max(output, 1)
+#        test_predicted = np.round(output)
+        test_predicted = (test_output>threshold).float()*1
+#        print(test_predicted)
+        test_predicted_squeeze = torch.squeeze(test_predicted)
+        test_predicted_squeeze = test_predicted_squeeze.type(torch.int64)
+#        print(test_predicted_squeeze)
+        test_predicted_list.extend(test_predicted_squeeze.detach().cpu().numpy())
+#        test_predicted_list.extend(test_predicted)
+
+        test_correct += (test_predicted_squeeze.detach().cpu().numpy() == y_test.detach().cpu().numpy()).sum()
+#        test_correct += (test_predicted == y_test).sum().item()
+
+#        print(f"Test: {y_test},  Train predicted: {test_predicted}")
+
+        #valid_correct += (predicted == y_valid).sum().item()
+#        if targets == predicted:
+#            test_correct += 1
+#        test_total += 1
+
+        # Multiply by len(inputs) because the final batch of DataLoader may be smaller (drop_last=True).
+#        test_accuracies.append(accuracy(y_test, predictions) * len(inputs))
+        
+    test_accuracy = test_correct / len(test_dataloader.dataset)
+    print(f"Test accuracy: {test_accuracy}")
+#    print(f"y_test_list:\n{y_test_list}\n")
+#    print(f"predicted list: \n {test_predicted_list}\n")
+    confusion_matrix = metrics.confusion_matrix(y_test_list, test_predicted_list)    
+    print(f"Confusion matrix: {confusion_matrix}\n")
+    print("tn, fp, fn, tp")
+    print(metrics.confusion_matrix(y_test_list, test_predicted_list).ravel())
+    print('\n')
+    print(classification_report(y_test_list, test_predicted_list))
+    model.train()
+
+print(f'AUC score: {roc_auc_score(y_test_list, test_predicted_list)}')
+
+
+cm_display = metrics.ConfusionMatrixDisplay(confusion_matrix = confusion_matrix, display_labels = [False, True])
+cm_display.plot()
+plt.title(f"Testing Confusion Matrix_{name_of_file}")
+plt.savefig(f"{plot_path}/cf_{name_of_file}.png")
+
+
+# ROC plotting
+fpr, tpr, thresholds = roc_curve(y_test_list, test_predicted_list)
+plt.figure()
+plt.plot(fpr, tpr) # ROC curve = TPR vs FPR
+plt.title(f"ROC_{name_of_file}")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.savefig(f"{plot_path}/ROC_{name_of_file}.png")
+
+
+
+
+
+
+
+
+
+
+'''
+def normalize(matrix, axis):
+    axis = {'true': 1, 'pred': 0}[axis]
+    return matrix / matrix.sum(axis=axis, keepdims=True)
+
+classes = test_df['target']
+
+x_labels = [classes[i] for i in classes]
+y_labels = x_labels
+plt.figure(figsize=(6, 6))
+sns.heatmap(
+    ax=plt.gca(),
+    data=normalize(confusion_matrix, 'true'),
+    annot=True,
+    linewidths=0.5,
+    cmap="Reds",
+    cbar=False,
+    fmt=".2f",
+    xticklabels=x_labels,
+    yticklabels=y_labels,
+)
+plt.xticks(rotation=90)
+plt.yticks(rotation=0)
+plt.ylabel("True class")
+plt.xlabel("Predicted class")
+plt.title(f"confusion_graph_model4_{name_of_file}")
+plt.tight_layout()
+plt.savefig(f"plot/confusion_graph_model4_{name_of_file}.png")
+#plt.show()
+
+
+
+
+'''

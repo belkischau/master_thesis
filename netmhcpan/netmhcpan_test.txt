@@ -1,0 +1,34 @@
+# /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan -f /home/projects/vaccine/people/belcha/master_thesis/data/fastas/A0A024QZ33.fasta -a HLA-B*15:01 -BA
+# Mon Feb 27 11:20:13 2023
+# User: belcha
+# PWD : /home/projects/vaccine/people/belcha/master_thesis
+# Host: Linux g-01-c0039 3.10.0-1062.4.1.el7.x86_64 x86_64
+# -f       /home/projects/vaccine/people/belcha/master_thesis/data/fastas/A0A024QZ33.fasta File name with input
+# -a       HLA-B*15:01          HLA allele
+# -BA      1                    Make Binding affinity prediction
+# Command line parameters set to:
+#	[-rdir filename]     /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan Home directory for NetMHpan
+#	[-syn filename]      /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan/data/synlist.bin Synaps file
+#	[-v]                 0                    Verbose mode
+#	[-dirty]             0                    Dirty mode, leave tmp dir+files
+#	[-tdir filename]     /scratch/39546154/netMHCpanXXXXXX Temporary directory (made with mkdtemp)
+#	[-hlapseudo filename] /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan/data/MHC_pseudo.dat File with HLA pseudo sequences
+#	[-hlaseq filename]                        File with full length HLA sequences
+#	[-a line]            HLA-B*15:01          HLA allele
+#	[-f filename]        /home/projects/vaccine/people/belcha/master_thesis/data/fastas/A0A024QZ33.fasta File name with input
+#	[-w]                 0                    w option for webface
+#	[-s]                 0                    Sort output on descending affinity
+#	[-p]                 0                    Use peptide input
+#	[-rth float]         0.500000             Rank Threshold for high binding peptides
+#	[-rlt float]         2.000000             Rank Threshold for low binding peptides
+#	[-l string]          8,9,10,11            Peptide length [8-11] (multiple length with ,)
+#	[-xls]               0                    Save output to xls file
+#	[-xlsfile filename]  NetMHCpan_out.xls    Filename for xls dump
+#	[-t float]           -99.900002           Threshold for output
+#	[-thrfmt filename]   /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan/data/threshold/%s.thr.%s Format for threshold filenames
+#	[-expfix]            0                    Exclude prefix from synlist
+#	[-version filename]  /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan/data/version File with version information
+#	[-inptype int]       0                    Input type [0] FASTA [1] Peptide
+#	[-listMHC]           0                    Print list of alleles included in netMHCpan
+#	[-allname filename]  /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan/data/allelenames File with print names for alleles
+#	[-BA]                1                    Make Binding affinity prediction

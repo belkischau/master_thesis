@@ -1,0 +1,176 @@
+# /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/bin/netMHCpan -f /home/projects/vaccine/people/belcha/master_thesis/data/test_fasta_Q96HT8.fasta -BA -l 8-13
+# Mon Feb 27 11:34:01 2023
+# User: belcha
+# PWD : /home/projects/vaccine/people/belcha/master_thesis
+# Host: Linux g-01-c0039 3.10.0-1062.4.1.el7.x86_64 x86_64
+# -f       /home/projects/vaccine/people/belcha/master_thesis/data/test_fasta_Q96HT8.fasta File name with input
+# -BA      1                    Make Binding affinity prediction
+# -l       8-13                 Peptide length [8-11] (multiple length with ,)
+# Command line parameters set to:
+#	[-rdir filename]     /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64 Home directory for NetMHpan
+#	[-syn filename]      /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/data/synlist.bin Synaps file
+#	[-v]                 0                    Verbose mode
+#	[-dirty]             0                    Dirty mode, leave tmp dir+files
+#	[-tdir filename]     /scratch/39546154/netMHCpanXXXXXX Temporary directory (made with mkdtemp)
+#	[-hlapseudo filename] /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/data/MHC_pseudo.dat File with HLA pseudo sequences
+#	[-hlaseq filename]                        File with full length HLA sequences
+#	[-a line]            HLA-A02:01           HLA allele
+#	[-f filename]        /home/projects/vaccine/people/belcha/master_thesis/data/test_fasta_Q96HT8.fasta File name with input
+#	[-w]                 0                    w option for webface
+#	[-s]                 0                    Sort output on descending affinity
+#	[-p]                 0                    Use peptide input
+#	[-rth float]         0.500000             Rank Threshold for high binding peptides
+#	[-rlt float]         2.000000             Rank Threshold for low binding peptides
+#	[-l string]          8-13                 Peptide length [8-11] (multiple length with ,)
+#	[-xls]               0                    Save output to xls file
+#	[-xlsfile filename]  NetMHCpan_out.xls    Filename for xls dump
+#	[-t float]           -99.900002           Threshold for output
+#	[-thrfmt filename]   /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/data/threshold/%s.thr.%s Format for threshold filenames
+#	[-expfix]            0                    Exclude prefix from synlist
+#	[-version filename]  /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/data/version File with version information
+#	[-inptype int]       0                    Input type [0] FASTA [1] Peptide
+#	[-listMHC]           0                    Print list of alleles included in netMHCpan
+#	[-allname filename]  /home/projects/vaccine/people/s132421/CD19_CD22_project/netMHCpan-4.0/Linux_x86_64/data/allelenames File with print names for alleles
+#	[-BA]                1                    Make Binding affinity prediction
+
+# NetMHCpan version 4.0
+
+# Tmpdir made /scratch/39546154/netMHCpanCxXgTt
+# Input is in FSA format
+
+# Peptide length 8-13
+
+# Make binding affinity predictions
+
+HLA-A02:01 : Distance to training data  0.000 (using nearest neighbor HLA-A02:01)
+
+# Rank Threshold for Strong binding peptides   0.500
+# Rank Threshold for Weak binding peptides   2.000
+-----------------------------------------------------------------------------------
+  Pos          HLA         Peptide       Core Of Gp Gl Ip Il        Icore        Identity     Score Aff(nM)   %Rank  BindLevel
+-----------------------------------------------------------------------------------
+    1  HLA-A*02:01        MRPLDIDE  -MRPLDIDE  0  0  0  0  1     MRPLDIDE sp_Q96HT8_MR1L1 0.0084800 45616.6 93.1882
+    2  HLA-A*02:01        RPLDIDEV  RPLD-IDEV  0  0  0  4  1     RPLDIDEV sp_Q96HT8_MR1L1 0.0322660 35265.7 54.6817
+    3  HLA-A*02:01        PLDIDEVE  PL-DIDEVE  0  0  0  2  1     PLDIDEVE sp_Q96HT8_MR1L1 0.0084170 45647.7 93.2962
+    4  HLA-A*02:01        LDIDEVEA  -LDIDEVEA  0  0  0  0  1     LDIDEVEA sp_Q96HT8_MR1L1 0.0346100 34382.6 52.1865
+    5  HLA-A*02:01        DIDEVEAP  DIDEVEAP-  0  0  0  8  1     DIDEVEAP sp_Q96HT8_MR1L1 0.0128340 43517.4 85.2075
+    6  HLA-A*02:01        IDEVEAPE  -IDEVEAPE  0  0  0  0  1     IDEVEAPE sp_Q96HT8_MR1L1 0.0124500 43698.6 85.9454
+    7  HLA-A*02:01        DEVEAPEE  DEVEA-PEE  0  0  0  5  1     DEVEAPEE sp_Q96HT8_MR1L1 0.0046130 47565.7 96.8928
+    8  HLA-A*02:01        EVEAPEEV  EV-EAPEEV  0  0  0  2  1     EVEAPEEV sp_Q96HT8_MR1L1 0.0261600 37674.3 62.4272
+    9  HLA-A*02:01        VEAPEEVE  VEAPEEVE-  0  0  0  8  1     VEAPEEVE sp_Q96HT8_MR1L1 0.0056930 47013.1 96.1653
+   10  HLA-A*02:01        EAPEEVEV  EAPEEV-EV  0  0  0  6  1     EAPEEVEV sp_Q96HT8_MR1L1 0.0308390 35814.5 56.3790
+   11  HLA-A*02:01        APEEVEVL  AP-EEVEVL  0  0  0  2  1     APEEVEVL sp_Q96HT8_MR1L1 0.0271560 37270.5 61.0192
+   12  HLA-A*02:01        PEEVEVLE  -PEEVEVLE  0  0  0  0  1     PEEVEVLE sp_Q96HT8_MR1L1 0.0038920 47938.2 97.3784
+   13  HLA-A*02:01        EEVEVLEP  EEVEVLEP-  0  0  0  8  1     EEVEVLEP sp_Q96HT8_MR1L1 0.0095290 45101.8 91.3901
+   14  HLA-A*02:01        EVEVLEPE  EV-EVLEPE  0  0  0  2  1     EVEVLEPE sp_Q96HT8_MR1L1 0.0138540 43039.8 83.2569
+   15  HLA-A*02:01        VEVLEPEE  VEV-LEPEE  0  0  0  3  1     VEVLEPEE sp_Q96HT8_MR1L1 0.0066040 46552.0 95.5517
+   16  HLA-A*02:01        EVLEPEED  EVLEPEED-  0  0  0  8  1     EVLEPEED sp_Q96HT8_MR1L1 0.0051110 47310.1 96.5573
+   17  HLA-A*02:01        VLEPEEDF  VL-EPEEDF  0  0  0  2  1     VLEPEEDF sp_Q96HT8_MR1L1 0.0310570 35730.1 56.1125
+   18  HLA-A*02:01        LEPEEDFE  LEPEEDFE-  0  0  0  8  1     LEPEEDFE sp_Q96HT8_MR1L1 0.0059510 46882.0 95.9915
+   19  HLA-A*02:01        EPEEDFEQ  EPEEDFEQ-  0  0  0  8  1     EPEEDFEQ sp_Q96HT8_MR1L1 0.0045900 47577.5 96.9083
+   20  HLA-A*02:01        PEEDFEQF  -PEEDFEQF  0  0  0  0  1     PEEDFEQF sp_Q96HT8_MR1L1 0.0082520 45729.2 93.5790
+   21  HLA-A*02:01        EEDFEQFL  EE-DFEQFL  0  0  0  2  1     EEDFEQFL sp_Q96HT8_MR1L1 0.0227770 39078.8 67.4715
+   22  HLA-A*02:01        EDFEQFLL  EDFE-QFLL  0  0  0  4  1     EDFEQFLL sp_Q96HT8_MR1L1 0.0348510 34293.1 51.9300
+   23  HLA-A*02:01        DFEQFLLP  D-FEQFLLP  0  0  0  1  1     DFEQFLLP sp_Q96HT8_MR1L1 0.0150900 42468.1 80.8945
+   24  HLA-A*02:01        FEQFLLPV  FE-QFLLPV  0  0  0  2  1     FEQFLLPV sp_Q96HT8_MR1L1 0.1143300 14512.3 18.9540
+   25  HLA-A*02:01        EQFLLPVI  EQF-LLPVI  0  0  0  3  1     EQFLLPVI sp_Q96HT8_MR1L1 0.0884170 19208.8 24.1904
+   26  HLA-A*02:01        QFLLPVIN  QFLLPVIN-  0  0  0  8  1     QFLLPVIN sp_Q96HT8_MR1L1 0.0136180 43149.9 83.7080
+   27  HLA-A*02:01        FLLPVINE  FLLPVINE-  0  0  0  8  1     FLLPVINE sp_Q96HT8_MR1L1 0.2497700  3352.0  7.5994
+   28  HLA-A*02:01        LLPVINEM  LL-PVINEM  0  0  0  2  1     LLPVINEM sp_Q96HT8_MR1L1 0.2437310  3578.4  7.8620
+   29  HLA-A*02:01        LPVINEMR  -LPVINEMR  0  0  0  0  1     LPVINEMR sp_Q96HT8_MR1L1 0.0138610 43036.6 83.2435
+   30  HLA-A*02:01        PVINEMRE  PVINEMRE-  0  0  0  8  1     PVINEMRE sp_Q96HT8_MR1L1 0.0073750 46165.2 95.0323
+   31  HLA-A*02:01        VINEMRED  VINEMRED-  0  0  0  8  1     VINEMRED sp_Q96HT8_MR1L1 0.0082740 45718.4 93.5413
+   32  HLA-A*02:01        INEMREDI  -INEMREDI  0  0  0  0  1     INEMREDI sp_Q96HT8_MR1L1 0.0151260 42451.5 80.8257
+   33  HLA-A*02:01        NEMREDIA  NEMREDI-A  0  0  0  7  1     NEMREDIA sp_Q96HT8_MR1L1 0.0081850 45762.4 93.6939
+   34  HLA-A*02:01        EMREDIAS  EMREDIAS-  0  0  0  8  1     EMREDIAS sp_Q96HT8_MR1L1 0.0179020 41195.4 75.6801
+   35  HLA-A*02:01        MREDIASL  -MREDIASL  0  0  0  0  1     MREDIASL sp_Q96HT8_MR1L1 0.0951160 17865.8 22.6318
+   36  HLA-A*02:01        REDIASLI  RE-DIASLI  0  0  0  2  1     REDIASLI sp_Q96HT8_MR1L1 0.0317020 35481.6 55.3240
+   37  HLA-A*02:01        EDIASLIR  EDIASLI-R  0  0  0  7  1     EDIASLIR sp_Q96HT8_MR1L1 0.0095440 45094.4 91.3644
+   38  HLA-A*02:01        DIASLIRE  DIASLIRE-  0  0  0  8  1     DIASLIRE sp_Q96HT8_MR1L1 0.0125880 43633.4 85.6802
+   39  HLA-A*02:01        IASLIREH  IASLIREH-  0  0  0  8  1     IASLIREH sp_Q96HT8_MR1L1 0.0133500 43275.2 84.2202
+   40  HLA-A*02:01        ASLIREHG  ASLIREHG-  0  0  0  8  1     ASLIREHG sp_Q96HT8_MR1L1 0.0101400 44804.6 90.3428
+   41  HLA-A*02:01        SLIREHGR  SLIRE-HGR  0  0  0  5  1     SLIREHGR sp_Q96HT8_MR1L1 0.0267310 37442.2 61.6200
+   42  HLA-A*02:01        LIREHGRA  -LIREHGRA  0  0  0  0  1     LIREHGRA sp_Q96HT8_MR1L1 0.0207480 39946.2 70.7396
+   43  HLA-A*02:01        IREHGRAY  IR-EHGRAY  0  0  0  2  1     IREHGRAY sp_Q96HT8_MR1L1 0.0085020 45605.7 93.1505
+   44  HLA-A*02:01        REHGRAYL  REHGRAY-L  0  0  0  7  1     REHGRAYL sp_Q96HT8_MR1L1 0.0254090 37981.7 63.4888
+   45  HLA-A*02:01        EHGRAYLR  EH-GRAYLR  0  0  0  2  1     EHGRAYLR sp_Q96HT8_MR1L1 0.0090450 45338.6 92.2197
+   46  HLA-A*02:01        HGRAYLRT  HG-RAYLRT  0  0  0  2  1     HGRAYLRT sp_Q96HT8_MR1L1 0.0113550 44219.4 88.0496
+   47  HLA-A*02:01        GRAYLRTR  GR-AYLRTR  0  0  0  2  1     GRAYLRTR sp_Q96HT8_MR1L1 0.0135810 43167.2 83.7787
+   48  HLA-A*02:01        RAYLRTRS  RAYLRT-RS  0  0  0  6  1     RAYLRTRS sp_Q96HT8_MR1L1 0.0222570 39299.3 68.2938
+   49  HLA-A*02:01        AYLRTRSK  -AYLRTRSK  0  0  0  0  1     AYLRTRSK sp_Q96HT8_MR1L1 0.0153510 42348.3 80.3956
+   50  HLA-A*02:01        YLRTRSKL  YL-RTRSKL  0  0  0  2  1     YLRTRSKL sp_Q96HT8_MR1L1 0.0698960 23471.0 29.8760
+   51  HLA-A*02:01        LRTRSKLW  LRTRSK-LW  0  0  0  6  1     LRTRSKLW sp_Q96HT8_MR1L1 0.0097040 45016.4 91.0902
+   52  HLA-A*02:01        RTRSKLWE  RTRSKLWE-  0  0  0  8  1     RTRSKLWE sp_Q96HT8_MR1L1 0.0230750 38953.0 67.0003
+   53  HLA-A*02:01        TRSKLWEM  -TRSKLWEM  0  0  0  0  1     TRSKLWEM sp_Q96HT8_MR1L1 0.0354260 34080.4 51.3179
+   54  HLA-A*02:01        RSKLWEMD  RSKLWEMD-  0  0  0  8  1     RSKLWEMD sp_Q96HT8_MR1L1 0.0097760 44981.4 90.9667
+   55  HLA-A*02:01        SKLWEMDN  SKLWEMDN-  0  0  0  8  1     SKLWEMDN sp_Q96HT8_MR1L1 0.0057820 46967.8 96.1053
+   56  HLA-A*02:01        KLWEMDNM  KLWEMD-NM  0  0  0  6  1     KLWEMDNM sp_Q96HT8_MR1L1 0.3358060  1321.4  4.6782
+   57  HLA-A*02:01        LWEMDNML  -LWEMDNML  0  0  0  0  1     LWEMDNML sp_Q96HT8_MR1L1 0.2957740  2037.7  5.8790
+   58  HLA-A*02:01        WEMDNMLI  WEMD-NMLI  0  0  0  4  1     WEMDNMLI sp_Q96HT8_MR1L1 0.0864740 19616.9 24.6978
+   59  HLA-A*02:01        EMDNMLIQ  EMDNMLIQ-  0  0  0  8  1     EMDNMLIQ sp_Q96HT8_MR1L1 0.0285490 36712.9 59.1785
+   60  HLA-A*02:01        MDNMLIQI  -MDNMLIQI  0  0  0  0  1     MDNMLIQI sp_Q96HT8_MR1L1 0.1575150  9095.2 13.5913
+   61  HLA-A*02:01        DNMLIQIK  DNMLIQI-K  0  0  0  7  1     DNMLIQIK sp_Q96HT8_MR1L1 0.0132120 43339.8 84.4839
+   62  HLA-A*02:01        NMLIQIKT  NML-IQIKT  0  0  0  3  1     NMLIQIKT sp_Q96HT8_MR1L1 0.0540090 27873.0 37.0183
+   63  HLA-A*02:01        MLIQIKTQ  MLIQIKTQ-  0  0  0  8  1     MLIQIKTQ sp_Q96HT8_MR1L1 0.0373670 33372.1 49.3081
+   64  HLA-A*02:01        LIQIKTQV  -LIQIKTQV  0  0  0  0  1     LIQIKTQV sp_Q96HT8_MR1L1 0.0781720 21460.6 27.0663
+   65  HLA-A*02:01        IQIKTQVE  IQIKTQVE-  0  0  0  8  1     IQIKTQVE sp_Q96HT8_MR1L1 0.0200910 40231.2 71.8696
+   66  HLA-A*02:01        QIKTQVEA  -QIKTQVEA  0  0  0  0  1     QIKTQVEA sp_Q96HT8_MR1L1 0.0256790 37870.9 63.1072
+   67  HLA-A*02:01        IKTQVEAS  -IKTQVEAS  0  0  0  0  1     IKTQVEAS sp_Q96HT8_MR1L1 0.0069460 46380.0 95.3213
+   68  HLA-A*02:01        KTQVEASE  KTQ-VEASE  0  0  0  3  1     KTQVEASE sp_Q96HT8_MR1L1 0.0125690 43642.4 85.7168
+   69  HLA-A*02:01        TQVEASEE  TQVEASEE-  0  0  0  8  1     TQVEASEE sp_Q96HT8_MR1L1 0.0136050 43155.9 83.7328
+   70  HLA-A*02:01        QVEASEES  QV-EASEES  0  0  0  2  1     QVEASEES sp_Q96HT8_MR1L1 0.0090860 45318.5 92.1495
+   71  HLA-A*02:01        VEASEESA  VEASE-ESA  0  0  0  5  1     VEASEESA sp_Q96HT8_MR1L1 0.0094380 45146.2 91.5461
+   72  HLA-A*02:01        EASEESAL  EASEESA-L  0  0  0  7  1     EASEESAL sp_Q96HT8_MR1L1 0.0178840 41203.4 75.7132
+   73  HLA-A*02:01        ASEESALN  ASEESALN-  0  0  0  8  1     ASEESALN sp_Q96HT8_MR1L1 0.0083530 45679.3 93.4059
+   74  HLA-A*02:01        SEESALNH  SEESALNH-  0  0  0  8  1     SEESALNH sp_Q96HT8_MR1L1 0.0054430 47140.4 96.3337
+   75  HLA-A*02:01        EESALNHV  EE-SALNHV  0  0  0  2  1     EESALNHV sp_Q96HT8_MR1L1 0.0165210 41815.6 78.2252
+   76  HLA-A*02:01        ESALNHVQ  ESALNHVQ-  0  0  0  8  1     ESALNHVQ sp_Q96HT8_MR1L1 0.0096350 45050.1 91.2084
+   77  HLA-A*02:01        SALNHVQH  SALNHVQH-  0  0  0  8  1     SALNHVQH sp_Q96HT8_MR1L1 0.0148760 42566.5 81.3035
+   78  HLA-A*02:01        ALNHVQHP  ALNHVQHP-  0  0  0  8  1     ALNHVQHP sp_Q96HT8_MR1L1 0.0443580 30940.9 43.3434
+   79  HLA-A*02:01        LNHVQHPS  -LNHVQHPS  0  0  0  0  1     LNHVQHPS sp_Q96HT8_MR1L1 0.0257040 37860.6 63.0718
+   80  HLA-A*02:01        NHVQHPSG  NHVQHPSG-  0  0  0  8  1     NHVQHPSG sp_Q96HT8_MR1L1 0.0040310 47866.1 97.2848
+   81  HLA-A*02:01        HVQHPSGE  HVQHPSGE-  0  0  0  8  1     HVQHPSGE sp_Q96HT8_MR1L1 0.0099610 44891.4 90.6496
+   82  HLA-A*02:01        VQHPSGEA  VQ-HPSGEA  0  0  0  2  1     VQHPSGEA sp_Q96HT8_MR1L1 0.0236640 38705.6 66.0689
+   83  HLA-A*02:01        QHPSGEAD  QHPSGEAD-  0  0  0  8  1     QHPSGEAD sp_Q96HT8_MR1L1 0.0034920 48146.1 97.6479
+   84  HLA-A*02:01        HPSGEADE  HPSGEADE-  0  0  0  8  1     HPSGEADE sp_Q96HT8_MR1L1 0.0040390 47862.0 97.2794
+   85  HLA-A*02:01        PSGEADER  PSGEA-DER  0  0  0  5  1     PSGEADER sp_Q96HT8_MR1L1 0.0047230 47509.1 96.8187
+   86  HLA-A*02:01        SGEADERV  SG-EADERV  0  0  0  2  1     SGEADERV sp_Q96HT8_MR1L1 0.0153740 42337.8 80.3517
+   87  HLA-A*02:01        GEADERVS  GEADERVS-  0  0  0  8  1     GEADERVS sp_Q96HT8_MR1L1 0.0048670 47435.1 96.7217
+   88  HLA-A*02:01        EADERVSE  EADERVSE-  0  0  0  8  1     EADERVSE sp_Q96HT8_MR1L1 0.0091500 45287.1 92.0398
+   89  HLA-A*02:01        ADERVSEL  -ADERVSEL  0  0  0  0  1     ADERVSEL sp_Q96HT8_MR1L1 0.0299500 36160.6 57.4658
+   90  HLA-A*02:01        DERVSELC  DE-RVSELC  0  0  0  2  1     DERVSELC sp_Q96HT8_MR1L1 0.0067060 46500.6 95.4830
+   91  HLA-A*02:01        ERVSELCE  ERVSELCE-  0  0  0  8  1     ERVSELCE sp_Q96HT8_MR1L1 0.0059940 46860.2 95.9625
+   92  HLA-A*02:01        RVSELCEK  RVSE-LCEK  0  0  0  4  1     RVSELCEK sp_Q96HT8_MR1L1 0.0309580 35768.4 56.2335
+   93  HLA-A*02:01        VSELCEKA  VS-ELCEKA  0  0  0  2  1     VSELCEKA sp_Q96HT8_MR1L1 0.0258760 37790.2 62.8287
+   94  HLA-A*02:01        SELCEKAE  SELCEKAE-  0  0  0  8  1     SELCEKAE sp_Q96HT8_MR1L1 0.0066240 46541.9 95.5382
+   95  HLA-A*02:01        ELCEKAEE  ELCEKAEE-  0  0  0  8  1     ELCEKAEE sp_Q96HT8_MR1L1 0.0104590 44650.2 89.7713
+   96  HLA-A*02:01        LCEKAEEK  -LCEKAEEK  0  0  0  0  1     LCEKAEEK sp_Q96HT8_MR1L1 0.0118950 43961.8 87.0119
+   97  HLA-A*02:01        CEKAEEKA  CE-KAEEKA  0  0  0  2  1     CEKAEEKA sp_Q96HT8_MR1L1 0.0058240 46946.5 96.0771
+   98  HLA-A*02:01        EKAEEKAK  EKAEEKA-K  0  0  0  7  1     EKAEEKAK sp_Q96HT8_MR1L1 0.0042360 47760.1 97.1467
+   99  HLA-A*02:01        KAEEKAKE  KAEEK-AKE  0  0  0  5  1     KAEEKAKE sp_Q96HT8_MR1L1 0.0067740 46466.4 95.4372
+  100  HLA-A*02:01        AEEKAKEI  AE-EKAKEI  0  0  0  2  1     AEEKAKEI sp_Q96HT8_MR1L1 0.0109010 44437.2 88.9220
+  101  HLA-A*02:01        EEKAKEIA  EE-KAKEIA  0  0  0  2  1     EEKAKEIA sp_Q96HT8_MR1L1 0.0046750 47533.8 96.8510
+  102  HLA-A*02:01        EKAKEIAK  -EKAKEIAK  0  0  0  0  1     EKAKEIAK sp_Q96HT8_MR1L1 0.0066910 46508.2 95.4931
+  103  HLA-A*02:01        KAKEIAKM  KA-KEIAKM  0  0  0  2  1     KAKEIAKM sp_Q96HT8_MR1L1 0.0235760 38742.4 66.2081
+  104  HLA-A*02:01        AKEIAKMA  -AKEIAKMA  0  0  0  0  1     AKEIAKMA sp_Q96HT8_MR1L1 0.0086260 45544.6 92.9380
+  105  HLA-A*02:01        KEIAKMAE  KEIAKMAE-  0  0  0  8  1     KEIAKMAE sp_Q96HT8_MR1L1 0.0120160 43904.3 86.7794
+  106  HLA-A*02:01        EIAKMAEM  EIAK-MAEM  0  0  0  4  1     EIAKMAEM sp_Q96HT8_MR1L1 0.0318300 35432.5 55.1675
+  107  HLA-A*02:01        IAKMAEML  -IAKMAEML  0  0  0  0  1     IAKMAEML sp_Q96HT8_MR1L1 0.0407780 32162.9 46.2481
+  108  HLA-A*02:01        AKMAEMLV  AKMAEML-V  0  0  0  7  1     AKMAEMLV sp_Q96HT8_MR1L1 0.0435450 31214.3 43.9751
+  109  HLA-A*02:01        KMAEMLVE  KMAEMLVE-  0  0  0  8  1     KMAEMLVE sp_Q96HT8_MR1L1 0.1440780 10518.4 14.9291
+  110  HLA-A*02:01        MAEMLVEL  -MAEMLVEL  0  0  0  0  1     MAEMLVEL sp_Q96HT8_MR1L1 0.3833280   790.2  3.6014
+  111  HLA-A*02:01        AEMLVELV  AEM-LVELV  0  0  0  3  1     AEMLVELV sp_Q96HT8_MR1L1 0.0549920 27578.1 36.5073
+  112  HLA-A*02:01        EMLVELVW  EML-VELVW  0  0  0  3  1     EMLVELVW sp_Q96HT8_MR1L1 0.0344270 34450.7 52.3813
+  113  HLA-A*02:01        MLVELVWR  MLVELVWR-  0  0  0  8  1     MLVELVWR sp_Q96HT8_MR1L1 0.1678540  8132.6 12.6423
+  114  HLA-A*02:01        LVELVWRI  -LVELVWRI  0  0  0  0  1     LVELVWRI sp_Q96HT8_MR1L1 0.3076720  1791.5  5.4945
+  115  HLA-A*02:01        VELVWRIE  VELVWRIE-  0  0  0  8  1     VELVWRIE sp_Q96HT8_MR1L1 0.0120360 43894.8 86.7410
+  116  HLA-A*02:01        ELVWRIER  ELVWRI-ER  0  0  0  6  1     ELVWRIER sp_Q96HT8_MR1L1 0.0251370 38093.6 63.8733
+  117  HLA-A*02:01        LVWRIERS  LVW-RIERS  0  0  0  3  1     LVWRIERS sp_Q96HT8_MR1L1 0.0316770 35491.2 55.3545
+  118  HLA-A*02:01        VWRIERSE  -VWRIERSE  0  0  0  0  1     VWRIERSE sp_Q96HT8_MR1L1 0.0087390 45488.9 92.7443
+  119  HLA-A*02:01        WRIERSES  WRIERSES-  0  0  0  8  1     WRIERSES sp_Q96HT8_MR1L1 0.0083190 45696.1 93.4642
+  120  HLA-A*02:01        RIERSESS  RI-ERSESS  0  0  0  2  1     RIERSESS sp_Q96HT8_MR1L1 0.0154710 42293.4 80.1663
+-----------------------------------------------------------------------------------
+
+Protein sp_Q96HT8_MR1L1. Allele HLA-A*02:01. Number of high binders 0. Number of weak binders 0. Number of peptides 120
+
+-----------------------------------------------------------------------------------

@@ -1,0 +1,403 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+import torch.nn.functional as F
+
+# Get cpu, gpu or mps device for training.
+device = ("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using {device} device")
+
+
+def one_hot_encode_sequence(sequence):
+    aa_to_int = {'A': 0, 'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'K': 8, 'L': 9, 'M': 10, 'N': 11, 'P': 12, 'Q': 13, 'R': 14, 'S': 15, 'T': 16, 'V': 17, 'W': 18, 'Y': 19}
+    encoded_sequence = torch.zeros(len(sequence), len(aa_to_int))
+    for i, aa in enumerate(sequence):
+        encoded_sequence[i][aa_to_int[aa]] = 1
+    return encoded_sequence
+
+
+
+# define your custom dataset
+class PeptideDataset(Dataset):
+    def __init__(self, dataframe):
+        self.dataframe = dataframe
+        self.peptides = self.dataframe['extended'].values
+        self.targets = self.dataframe['target'].values
+        self.encodeds = self.dataframe['encoding'].values
+
+    def __len__(self):
+        return len(self.dataframe)
+
+    def __getitem__(self, idx):
+        peptide = self.peptides[idx]
+        target = self.targets[idx]
+        encoding = self.encodeds[idx]
+
+        # One-hot encode the peptide sequence
+#        encoded_sequence = one_hot_encode_sequence(peptide)
+#        return encoded_sequence, target
+        return encoding, target 
+
+    
+from sklearn import metrics
+
+def accuracy(target, pred):
+    return metrics.accuracy_score(target.detach().cpu().numpy(), pred.detach().cpu().numpy())
+
+
+in_features = 21
+hidden_features = 12    
+
+# Load the peptide sequence data from a CSV file
+#data_df = pd.read_csv('../dataset/model/train_9mer.csv')
+data_df = pd.read_csv('../dataset/model/small_train_9mer.csv')
+#data_df = pd.read_csv('../dataset/model/train_9mer_5050.csv')
+
+data_df['encoding'] = data_df['extended'].apply(lambda x: one_hot_encode_sequence(x))
+
+
+# Split the data into training and validation sets
+#sequences_train, sequences_valid, targets_train, targets_valid = train_test_split(data_df['extended'], data_df['target'], test_size=0.2)
+train_df, val_df = train_test_split(data_df, test_size=0.2)
+
+# Define PeptideDataset objects for the training and validation sets
+# train_dataset = PeptideDataset(sequences_train, targets_train)
+# valid_dataset = PeptideDataset(sequences_valid, targets_valid)
+train_dataset = PeptideDataset(train_df)
+valid_dataset = PeptideDataset(val_df)
+
+# Define DataLoader objects for the training and validation sets
+batch_size = 32
+
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+valid_dataloader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=True)
+
+for batch_x, batch_y in train_dataloader:
+    print(f"Shape of X [N, C, H, W]: {batch_x.shape}")
+    print(f"Shape of y: {batch_y.shape} {batch_y.dtype}")
+    break
+
+for batch_x, batch_y in valid_dataloader:
+    print(f"Valid: Shape of X [N, C, H, W]: {batch_x.shape}")
+    print(f"Valid: Shape of y: {batch_y.shape} {batch_y.dtype}")
+    break
+
+print(train_dataloader)
+print(len(train_dataloader.dataset) == len(valid_dataloader.dataset))
+
+
+# Define the neural network model
+class PeptideClassifier(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+#        self.fc1 = torch.nn.Linear(23*3, 10)
+#        self.fc2 = torch.nn.Linear(10, 1)
+
+        self.flatten = nn.Flatten()
+        self.fc1 = nn.Linear(20 * in_features, hidden_features)
+        self.dropout = torch.nn.Dropout(p=0.3) #2) Add dropout
+        self.activation = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_features, 1)
+
+        
+    def forward(self, x):
+#        x = x.view(-1, 23*3)
+#        x = torch.relu(self.fc1(x))
+#        x = torch.sigmoid(self.fc2(x))
+
+        x = self.flatten(x)
+        x = self.fc1(x)
+        x = F.dropout(x)
+        x = self.activation(x)
+        x = self.fc2(x)
+        x = torch.sigmoid(x)
+
+        return x
+
+# Create an instance of the neural network model
+model = PeptideClassifier()
+
+# Define the loss function and optimizer
+criterion = torch.nn.BCELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+
+
+# Test the forward pass with dummy data
+out = model(torch.randn(32, 21, 20, device=device))
+print("Output shape:", out.size())
+print(f"Output logits:\n{out.detach().cpu().numpy()}")
+print(f"Output probabilities:\n{out.softmax(1).detach().cpu().numpy()}")
+#print(f"Output probabilities:\n{out.sigmoid().detach().cpu().numpy()}")
+
+
+print(f"\nOut: \n{out.detach().cpu().numpy()}\n")
+threshold = torch.tensor([0.5])
+
+results = (out>threshold).float()*1
+print(results.detach().cpu().numpy())
+
+
+
+train_losses = []
+train_accuracies = []
+valid_losses = []
+valid_accuracies = []
+
+# Train the model using the training DataLoader and validate it using the validation DataLoader
+for epoch in range(3):
+#    # Train the model
+    model.train()
+    running_loss = 0.0
+    train_loss = 0.0
+    train_correct = 0
+    train_accuracies_batches = []
+    total = 0 
+    for i, (x_train, y_train) in enumerate(train_dataloader):
+        # Zero the gradients
+        optimizer.zero_grad()
+        # Forward pass
+        outputs = model(x_train)
+#        outputs = torch.FloatTensor(outputs).unsqueeze(-1)
+        outputs = outputs.reshape([len(x_train), -1])
+#        threshold = torch.tensor([0.5])
+
+        print(f"Train output logits: {outputs.detach().cpu().numpy()}")
+
+
+#        outputs = (outputs>threshold).float()*1
+
+
+
+#        print(f"outputs size: {outputs.shape}")
+#        print(f"y_train size: {y_train.shape}")
+
+
+#        predictions = output.max(1)[1]
+#        train_accuracies_batches.append(accuracy(y_train, predictions))
+
+        # Calculate the loss
+        loss = criterion(outputs, y_train.float().view(-1, 1))
+        # Backward pass
+        loss.backward()
+        # Update the weights
+        optimizer.step()
+
+        train_loss += loss.item() * x_train.size(0)
+        threshold = torch.tensor([0.5])
+
+#        outputs = (outputs>threshold).float()*1
+        train_predicted = (outputs>threshold).float()*1
+       	print(f"Data type of train output: {train_predicted.dtype}")
+        print(f"Train output logits: {train_predicted.detach().cpu().numpy()}")
+
+
+#        _, train_predicted = torch.max(outputs, 1)
+#        _, train_predicted = outputs.max(1)
+        print(f"Train: {y_train.detach().cpu().numpy()},  Train predicted: {train_predicted.detach().cpu().numpy()}")
+        train_correct += (train_predicted == y_train).sum().item()
+#        train_accuracies_batches.append(accuracy(y_train, train_predicted))
+
+    train_loss /= len(train_dataloader.dataset)
+    train_losses.append(train_loss)
+
+    train_accuracy = train_correct / len(train_dataloader.dataset)
+#    train_accuracy = train_correct / total
+    train_accuracies.append(train_accuracy)
+#    train_accuracies.append(np.mean(train_accuracies_batches))
+
+    # Validate the model
+    model.eval()
+    valid_loss = 0.0
+    valid_correct = 0
+    valid_total = 0
+
+    valid_accuracies_batches = []
+
+    with torch.no_grad():
+        model.eval()
+        for x_valid, y_valid in valid_dataloader:
+            output = model(x_valid)
+            output = output.reshape([len(x_valid), -1])
+#            threshold = torch.tensor([0.5])
+
+#            output = (output>threshold).float()*1
+            loss = criterion(output, y_valid.float().view(-1, 1))
+            valid_loss += loss.item() * x_valid.size(0)
+#            _, valid_predicted = torch.max(output, 1)
+            valid_predicted = (output>threshold).float()*1
+            print(f"Valid: {y_valid},  Valid predicted: {valid_predicted}")
+#            valid_accuracies_batches.append(accuracy(y_valid, valid_predicted))
+
+            valid_correct += (valid_predicted == y_valid).sum().item()
+#            if y_valid == predicted:
+#                valid_correct += 1
+#            valid_total += 1
+
+    valid_loss /= len(valid_dataloader.dataset)
+    valid_losses.append(valid_loss)
+    valid_accuracy = valid_correct / len(valid_dataloader.dataset)
+#    valid_accuracy = valid_correct / valid_total
+    valid_accuracies.append(valid_accuracy)
+#    valid_accuracies.append(np.mean(valid_accuracies_batches))
+
+#    if i % 500 == 0: 
+#        print(f"Step {i}   training loss: {train_losses[-1]}")
+#        print(f"             valid accuracy: {valid_accuracies[-1]}")
+
+    if epoch % 1 == 0:
+        print("Epoch %2i : Train Loss %f , Vlaid Loss %f, Train Acc %f, Valid Acc %f" % (
+            epoch+1, train_losses[-1], valid_losses[-1], train_accuracies[-1] ,valid_accuracies[-1]))
+
+def checksum(model):
+    s = 0.0
+    for param in model.parameters():
+        s += torch.sum(param)
+    return s
+
+print(checksum(model))
+
+
+'''
+# Plot the learning curve
+fig, ax1 = plt.subplots()
+color = 'tab:red'
+ax1.plot(train_losses, color=color)
+ax1.plot(valid_losses, color=color, linestyle='dashed')
+ax1.set_xlabel('Epoch')
+ax1.set_ylabel('Loss', color=color)
+ax1.tick_params(axis='y', labelcolor=color)
+
+ax2 = ax1.twinx()
+color = 'tab:blue'
+ax2.plot(valid_accuracies, color=color)
+ax2.set_ylabel('Accuracy', color=color)
+ax2.tick_params(axis='y', labelcolor=color)
+
+fig.tight_layout()
+#plt.savefig('learning_curve_model1.png')
+plt.show()
+
+
+epoch = np.arange(len(train_accuracies))
+plt.figure()
+plt.plot(epoch, train_accuracies, 'r', epoch, valid_accuracies, 'b')
+plt.legend(['Train Accucary','Validation Accuracy'])
+plt.xlabel('Updates'), plt.ylabel('Acc')
+#plt.savefig("accuracies_model1.png")
+plt.show()
+'''
+
+# Testing data
+
+#test_df = pd.read_csv("../dataset/model/test_9mer.csv")
+#test_df = pd.read_csv("../dataset/model/small_test_9mer.csv")
+test_df = pd.read_csv("../dataset/model/test_9mer_5050.csv")
+
+test_df['encoding'] = test_df['extended'].apply(lambda x: one_hot_encode_sequence(x))
+
+#print(test_df.head())
+
+test_dataset = PeptideDataset(test_df)
+
+test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
+
+for batch_x, batch_y in test_dataloader:
+    print(f"Test -- Shape of X [N, C, H, W]: {batch_x.shape}")
+    print(f"Test -- Shape of y: {batch_y.shape} {batch_y.dtype}")
+    break
+
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import pandas as pd
+
+n_classes = 2
+
+from sklearn import metrics
+
+def accuracy(target, pred):
+    return metrics.accuracy_score(target.detach().cpu().numpy(), pred.detach().cpu().numpy())
+
+def compute_confusion_matrix(target, pred, normalize=None):
+    return metrics.confusion_matrix(
+        target.detach().cpu().numpy(), 
+        pred.detach().cpu().numpy(),
+        normalize=normalize
+    )
+
+# Evaluate test set
+confusion_matrix = np.zeros((n_classes, n_classes))
+
+with torch.no_grad():
+    model.eval()
+    test_accuracies = []
+    test_correct = 0
+    test_total = 0
+    test_accuracies_batches = []
+
+    for x_test, y_test in test_dataloader:
+#        x_test, y_test = x_test.to(device), y_test.to(device)
+        output = model(x_test)
+        output = output.reshape([len(x_test), -1])
+        output = output.to(torch.float32)
+
+        loss = criterion(output, y_test.float().view(-1, 1))
+
+        _, test_predicted = torch.max(output, 1)
+#        print(f"Test: {y_test},  Train predicted: {test_predicted}")
+        test_accuracies_batches.append(accuracy(y_test, test_predicted))
+
+        #valid_correct += (predicted == y_valid).sum().item()
+#        if targets == predicted:
+#            test_correct += 1
+#        test_total += 1
+
+        # Multiply by len(inputs) because the final batch of DataLoader may be smaller (drop_last=True).
+#        test_accuracies.append(accuracy(y_test, predictions) * len(inputs))
+        
+        confusion_matrix += compute_confusion_matrix(y_test, test_predicted)
+#    test_accuracy = test_correct / test_total
+#    test_accuracy = np.sum(test_accuracies) / len(test_dataloader.dataset)
+    test_accuracies.append(np.mean(test_accuracies_batches))
+    print(f"Test accuracy: {test_accuracies[-1]}")
+    
+    model.train()
+
+
+
+'''
+
+def normalize(matrix, axis):
+    axis = {'true': 1, 'pred': 0}[axis]
+    return matrix / matrix.sum(axis=axis, keepdims=True)
+
+classes = test_df['target']
+
+x_labels = [classes[i] for i in classes]
+y_labels = x_labels
+plt.figure(figsize=(6, 6))
+sns.heatmap(
+    ax=plt.gca(),
+    data=normalize(confusion_matrix, 'true'),
+    annot=True,
+    linewidths=0.5,
+    cmap="Reds",
+    cbar=False,
+    fmt=".2f",
+    xticklabels=x_labels,
+    yticklabels=y_labels,
+)
+plt.xticks(rotation=90)
+plt.yticks(rotation=0)
+plt.ylabel("True class")
+plt.xlabel("Predicted class")
+plt.tight_layout()
+#plt.savefig("confusion_graph.png")
+plt.show()
+
+
+'''

@@ -1,0 +1,9 @@
+usage: model4_hp_nest_cv.py [-h] [-train TRAINING] [-valid VALIDATION]
+                            [-test TESTING] [-lr LEARNING_RATE] [-d DROPOUT]
+                            [-h1 HIDDEN_FEATURE1] [-h2 HIDDEN_FEATURE2]
+                            [-b BATCH_SIZE]
+model4_hp_nest_cv.py: error: unrecognized arguments: c002, c003
+
+real	0m5.588s
+user	0m2.375s
+sys	0m0.898s

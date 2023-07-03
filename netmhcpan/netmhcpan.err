@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "get_possible_peptide4.py", line 99, in <module>
+    f.write(not_found_allele)
+TypeError: write() argument must be str, not list

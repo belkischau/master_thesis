@@ -1,0 +1,31 @@
+Using cpu device
+Namespace(batch_size=32, dropout=0.1, hidden_feature1=32, hidden_feature2=12, learning_rate=0.01, testing='c000', training='c002, c003, c004', validation='c001')
+========== start cross validation  =============
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=32, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=32, out_features=12, bias=True)
+  (fc3): Linear(in_features=12, out_features=1, bias=True)
+)
+starting training from the function
+Epoch  1 : Train Loss 0.607239 , Valid Loss 0.585060 , Train Acc 0.678170 , Valid Acc 0.697719
+Epoch  5 : Train Loss 0.573618 , Valid Loss 0.573638 , Train Acc 0.709002 , Valid Acc 0.709046
+Epoch 10 : Train Loss 0.562529 , Valid Loss 0.581719 , Train Acc 0.717312 , Valid Acc 0.710634
+Epoch 15 : Train Loss 0.555120 , Valid Loss 0.570356 , Train Acc 0.721070 , Valid Acc 0.708146
+Epoch 20 : Train Loss 0.546609 , Valid Loss 0.576266 , Train Acc 0.727192 , Valid Acc 0.706849
+Epoch 25 : Train Loss 0.545276 , Valid Loss 0.575869 , Train Acc 0.728991 , Valid Acc 0.710528
+Epoch 30 : Train Loss 0.543090 , Valid Loss 0.574010 , Train Acc 0.730253 , Valid Acc 0.713465
+Epoch 35 : Train Loss 0.540729 , Valid Loss 0.584640 , Train Acc 0.731902 , Valid Acc 0.712010
+Epoch 40 : Train Loss 0.537853 , Valid Loss 0.576815 , Train Acc 0.734381 , Valid Acc 0.719129
+Epoch 45 : Train Loss 0.538076 , Valid Loss 0.584229 , Train Acc 0.731964 , Valid Acc 0.714894
+Epoch 50 : Train Loss 0.536311 , Valid Loss 0.582751 , Train Acc 0.731126 , Valid Acc 0.701741
+Epoch 55 : Train Loss 0.534096 , Valid Loss 0.608172 , Train Acc 0.731955 , Valid Acc 0.711983
+Epoch 60 : Train Loss 0.535256 , Valid Loss 0.580351 , Train Acc 0.733102 , Valid Acc 0.708755
+Early stop at epoch: 62. 
+Final training statistics: 
+Train Loss 0.532927 | Valid Loss 0.602167 | Train Acc 0.733729 | Valid Acc 0.714841
+Finished 1 inner loop training
+Finish training
+32 12 0.01 32 0.1 0.7148414756788228

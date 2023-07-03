@@ -1,0 +1,37 @@
+Using cpu device
+Namespace(subtesting='c003', testing='c000', training='c000, c001, c002, c004')
+========== start cross validation  =============
+sub train file = ['c001', 'c002', 'c004'], sub valid file = c000
+Subtest test file = c003
+start trainin!!!!!!
+PeptideClassifier(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=420, out_features=16, bias=True)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (activation): ReLU()
+  (fc2): Linear(in_features=16, out_features=4, bias=True)
+  (fc3): Linear(in_features=4, out_features=1, bias=True)
+)
+starting training from the function
+Epoch  1 : Train Loss 0.664145 , Valid Loss 0.661208 , Train Acc 0.602534 , Valid Acc 0.639708
+Epoch  5 : Train Loss 0.625960 , Valid Loss 0.622436 , Train Acc 0.663270 , Valid Acc 0.659530
+Epoch 10 : Train Loss 0.621561 , Valid Loss 0.627523 , Train Acc 0.668916 , Valid Acc 0.669560
+Epoch 15 : Train Loss 0.634835 , Valid Loss 0.640032 , Train Acc 0.661532 , Valid Acc 0.632377
+Epoch 20 : Train Loss 0.633076 , Valid Loss 0.634137 , Train Acc 0.667214 , Valid Acc 0.651194
+Epoch 25 : Train Loss 0.631806 , Valid Loss 0.639563 , Train Acc 0.668554 , Valid Acc 0.686127
+Epoch 30 : Train Loss 0.631271 , Valid Loss 0.638499 , Train Acc 0.668607 , Valid Acc 0.665352
+Epoch 35 : Train Loss 0.629921 , Valid Loss 0.634016 , Train Acc 0.668396 , Valid Acc 0.660509
+Epoch 40 : Train Loss 0.631629 , Valid Loss 0.646702 , Train Acc 0.669243 , Valid Acc 0.624014
+Epoch 45 : Train Loss 0.631110 , Valid Loss 0.644349 , Train Acc 0.667364 , Valid Acc 0.636162
+Epoch 50 : Train Loss 0.630807 , Valid Loss 0.636030 , Train Acc 0.670125 , Valid Acc 0.663341
+Epoch 55 : Train Loss 0.630087 , Valid Loss 0.648050 , Train Acc 0.671263 , Valid Acc 0.634891
+Epoch 60 : Train Loss 0.629882 , Valid Loss 0.639902 , Train Acc 0.672560 , Valid Acc 0.658763
+Epoch 65 : Train Loss 0.628967 , Valid Loss 0.641629 , Train Acc 0.676697 , Valid Acc 0.649156
+Epoch 70 : Train Loss 0.627743 , Valid Loss 0.633883 , Train Acc 0.679052 , Valid Acc 0.686101
+Epoch 75 : Train Loss 0.629099 , Valid Loss 0.633935 , Train Acc 0.673636 , Valid Acc 0.674880
+Epoch 80 : Train Loss 0.627112 , Valid Loss 0.635704 , Train Acc 0.673936 , Valid Acc 0.650850
+Epoch 85 : Train Loss 0.629126 , Valid Loss 0.637101 , Train Acc 0.675524 , Valid Acc 0.664029
+Epoch 90 : Train Loss 0.627150 , Valid Loss 0.638012 , Train Acc 0.677182 , Valid Acc 0.636373
+Epoch 95 : Train Loss 0.628953 , Valid Loss 0.636171 , Train Acc 0.672286 , Valid Acc 0.655216
+Epoch 100 : Train Loss 0.627160 , Valid Loss 0.639473 , Train Acc 0.674721 , Valid Acc 0.683190
+Finished 1 inner loop training
